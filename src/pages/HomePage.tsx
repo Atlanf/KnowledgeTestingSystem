@@ -1,44 +1,47 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import { TestCategory } from "../components/homePageComponents/TestCategory";
 import { TestCategoryDTO } from "../common/interfaces";
 import { API_URL } from "../common/apiUrl";
 
-const api = axios.create({
-    baseURL: API_URL,
-});
+export const HomePage: React.FC = () => {
+    const [categories, setCategories] = useState<TestCategoryDTO[]>();
+    const [error, setError] = useState<Error>();
+    const [isLoaded, setIsLoaded] = useState(false);
 
-export class HomePage extends React.Component {
-    constructor(props: any) {
-        super(props);
+    useEffect(() => {
+        axios.get(API_URL + "/index").then(
+            (response) => {
+                const result: TestCategoryDTO[] = response.data;
+                setCategories(result);
+                setIsLoaded(true);
+            },
+            (error) => {
+                setIsLoaded(true);
+                setError(error);
+            }
+        );
+    }, []);
 
-        const res = api.head(API_URL + "/index", {
-            method: "GET",
-            headers: "Access-Control-Allow-Origin: *",
-        });
-        console.log(res);
-        //console.log("sending request to " + API_URL);
-        // api.get("/index").then((res) => {
-        //     console.log(res.data);
-        // });
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+        return <div>Loading...</div>;
+    } else {
+        return (
+            <div className="container">
+                <div className="card-deck mb-3 text-center">
+                    {categories!.map((item) => (
+                        <TestCategory
+                            categoryName={item.categoryName}
+                            testFullNames={item.testFullNames}
+                            testShortNames={item.testShortNames}
+                        />
+                    ))}
+                </div>
+            </div>
+        );
     }
-    render() {
-        return <h1></h1>;
-    }
-}
-
-// export const HomePage: React.FC = (props) => {
-//     const [items, setItems] = useState<Array<TestCategoryDTO>>();
-
-//     return (
-//         <div>
-//             <ul>
-//                 {items?.map((item) => {
-//                     return <li>{item.categoryName}</li>;
-//                 })}
-//             </ul>
-//         </div>
-//     );
-// };
+};

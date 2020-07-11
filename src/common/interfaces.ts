@@ -16,3 +16,7 @@ export interface TestDTO {
     testId: number;
     questionsId: number[];
 }
+
+export interface DetailsMatchParams {
+    shortName: string;
+}
