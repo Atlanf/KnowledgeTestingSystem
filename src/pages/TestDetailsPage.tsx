@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import { DetailsMatchParams } from "../common/interfaces";
+import { IDetailsMatchParams } from "../common/interfaces";
 
-interface Props extends RouteComponentProps<DetailsMatchParams> {}
+interface Props extends RouteComponentProps<IDetailsMatchParams> {}
 
 export const TestDetailsPage: React.FC<Props> = ({ match }: Props) => {
     console.log(match.params.shortName);

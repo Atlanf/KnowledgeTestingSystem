@@ -1,10 +1,10 @@
-export interface TestCategoryDTO {
+export interface ITestCategoryDTO {
     categoryName: string;
     testFullNames: string[];
     testShortNames: string[];
 }
 
-export interface TestDetailsDTO {
+export interface ITestDetailsDTO {
     id: number;
     name: string;
     minimizedName: string;
@@ -12,11 +12,11 @@ export interface TestDetailsDTO {
     questionsApproved: number;
 }
 
-export interface TestDTO {
+export interface ITestDTO {
     testId: number;
     questionsId: number[];
 }
 
-export interface DetailsMatchParams {
+export interface IDetailsMatchParams {
     shortName: string;
 }

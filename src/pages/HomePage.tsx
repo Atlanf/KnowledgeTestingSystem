@@ -3,18 +3,19 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import { TestCategory } from "../components/homePageComponents/TestCategory";
-import { TestCategoryDTO } from "../common/interfaces";
+import { ITestCategoryDTO } from "../common/interfaces";
+import { Spinner } from "../components/Spinner";
 import { API_URL } from "../common/apiUrl";
 
 export const HomePage: React.FC = () => {
-    const [categories, setCategories] = useState<TestCategoryDTO[]>();
+    const [categories, setCategories] = useState<ITestCategoryDTO[]>();
     const [error, setError] = useState<Error>();
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         axios.get(API_URL + "/index").then(
             (response) => {
-                const result: TestCategoryDTO[] = response.data;
+                const result: ITestCategoryDTO[] = response.data;
                 setCategories(result);
                 setIsLoaded(true);
             },
@@ -28,7 +29,7 @@ export const HomePage: React.FC = () => {
     if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-        return <div>Loading...</div>;
+        return <Spinner />;
     } else {
         return (
             <div className="container">
