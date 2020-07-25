@@ -8,7 +8,7 @@ export const TestCategory: React.FC<ITestCategoryDTO> = ({
     testFullNames,
     testShortNames,
 }) => {
-    if (isNotEmpty(testFullNames)) {
+    if (isEmpty(testFullNames)) {
         return (
             <div className="card mb-4">
                 <div className="card-header">
@@ -41,8 +41,8 @@ export const TestCategory: React.FC<ITestCategoryDTO> = ({
     }
 };
 
-function isNotEmpty(value: string[]): boolean {
-    if (value.length > 0) {
+function isEmpty(value: string[]): boolean {
+    if (value.length == 0) {
         return true;
     } else {
         return false;

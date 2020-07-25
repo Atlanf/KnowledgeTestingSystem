@@ -19,9 +19,7 @@ export const Details: React.FC<ITestDetails> = ({
             <div className="text-justify mr-1">
                 <p>{description}</p>
             </div>
-            <div>
-                <QuestionCount count={questionsApproved}></QuestionCount>
-            </div>
+            <QuestionCount count={questionsApproved} />
             <ActionButtons testShortName={testShortName} />
             <br />
         </div>

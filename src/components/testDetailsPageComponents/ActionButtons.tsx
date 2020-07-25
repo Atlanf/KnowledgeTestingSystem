@@ -9,19 +9,21 @@ export const ActionButtons: React.FC<ISelectedTest> = ({
     testShortName,
 }: ISelectedTest) => {
     const history = useHistory();
+
+    const testPath = "/test/" + testShortName;
+    const addQuestionPath = "/" + testShortName + "/questions";
+
     return (
         <div className="btn-group" role="group">
             <button
                 className="btn btn-primary"
-                onClick={() => history.push("/test/" + { testShortName })}
+                onClick={() => history.push(testPath)}
             >
                 Start Test
             </button>
             <button
                 className="btn btn-primary"
-                onClick={() =>
-                    history.push("/" + { testShortName } + "/questions")
-                }
+                onClick={() => history.push(addQuestionPath)}
             >
                 Add Question
             </button>

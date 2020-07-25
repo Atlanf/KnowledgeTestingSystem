@@ -4,6 +4,8 @@ import { Navbar } from "./components/Navbar";
 
 import { HomePage } from "./pages/HomePage";
 import { TestDetailsPage } from "./pages/TestDetailsPage";
+import { TestingPage } from "./pages/TestingPage";
+import { AddQuestionPage } from "./pages/AddQuestionPage";
 
 function App() {
     return (
@@ -12,6 +14,11 @@ function App() {
             <Switch>
                 <Route path="/" exact component={HomePage} />
                 <Route path="/details/:shortName" component={TestDetailsPage} />
+                <Route path="/test/:testShortName" component={TestingPage} />
+                <Route
+                    path="/:testShortName/questions"
+                    component={AddQuestionPage}
+                />
             </Switch>
         </BrowserRouter>
     );
