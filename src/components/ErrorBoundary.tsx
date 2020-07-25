@@ -1,7 +1,5 @@
 import React from "react";
 
-import { ErrorDescription } from "./ErrorDescription";
-
 interface IErrorState {
     hasError: boolean;
 }
