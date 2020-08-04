@@ -42,7 +42,7 @@ export const TestCategory: React.FC<ITestCategoryDTO> = ({
 };
 
 function isEmpty(value: string[]): boolean {
-    if (value.length == 0) {
+    if (value.length === 0) {
         return true;
     } else {
         return false;

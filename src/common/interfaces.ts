@@ -36,3 +36,9 @@ export interface ITestDetails {
     description: string;
     questionsApproved: number;
 }
+
+export interface IApiFetchingResult<T> {
+    result: T[];
+    errors: Error | undefined;
+    isLoaded: boolean;
+}
