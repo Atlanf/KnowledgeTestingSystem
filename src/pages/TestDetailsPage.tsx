@@ -2,49 +2,43 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { RouteComponentProps } from "react-router-dom";
 
-import { IDetailsMatchParams, ITestDetailsDTO } from "../common/interfaces";
+import {
+    IDetailsMatchParams,
+    ITestDetailsDTO,
+    IApiFetchingResult,
+} from "../common/interfaces";
 import { API_URL } from "../common/apiUrl";
 
 import { Details } from "../components/testDetailsPageComponents/Details";
 import { UserResult } from "../components/testDetailsPageComponents/UserResult";
 import { Spinner } from "../components/Spinner";
 
+import FetchApi from "../api/FetchApi";
+
 interface Props extends RouteComponentProps<IDetailsMatchParams> {}
 
 export const TestDetailsPage: React.FC<Props> = ({ match }: Props) => {
-    const [testDetails, setDetails] = useState<ITestDetailsDTO>();
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
-    const [error, setError] = useState<Error>();
+    const fetchResult: IApiFetchingResult<ITestDetailsDTO> = FetchApi(
+        "/TestDetails/" + match.params.shortName
+    );
 
-    useEffect(() => {
-        axios.get(API_URL + "/TestDetails/" + match.params.shortName).then(
-            (response) => {
-                const result: ITestDetailsDTO = response.data;
-                setDetails(result);
-                setIsLoaded(true);
-            },
-            (error) => {
-                setIsLoaded(true);
-                setError(error);
-            }
-        );
-    }, []);
+    const testDetails: ITestDetailsDTO = fetchResult.result[0];
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
+    if (fetchResult.errors) {
+        return <div>Error: {fetchResult.errors.message}</div>;
+    } else if (!fetchResult.isLoaded) {
         return <Spinner />;
     } else {
         return (
-            <>
+            <div>
                 <Details
-                    testShortName={testDetails!.minimizedName}
-                    name={testDetails!.name}
-                    description={testDetails!.description}
-                    questionsApproved={testDetails!.questionsApproved}
+                    testShortName={testDetails.minimizedName}
+                    name={testDetails.name}
+                    description={testDetails.description}
+                    questionsApproved={testDetails.questionsApproved}
                 />
                 <UserResult />
-            </>
+            </div>
         );
     }
 };
