@@ -3,12 +3,10 @@ import React from "react";
 import { TestCategory } from "../components/homePageComponents/TestCategory";
 import { ITestCategoryDTO, IApiFetchingResult } from "../common/interfaces";
 import { Spinner } from "../components/Spinner";
-import FetchApi from "../api/FetchApi";
+import { apiGet } from "../api/apiWorker";
 
 export const HomePage: React.FC = () => {
-    const fetchResult: IApiFetchingResult<ITestCategoryDTO> = FetchApi(
-        "/index"
-    );
+    const fetchResult: IApiFetchingResult<ITestCategoryDTO> = apiGet("/index");
 
     const categories: ITestCategoryDTO[] = fetchResult.result;
 

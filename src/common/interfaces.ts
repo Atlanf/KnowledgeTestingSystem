@@ -8,7 +8,7 @@ export interface ITestDetailsDTO {
     id: any;
     name: string;
     minimizedName: any;
-    description: string;
+    testDescription: string;
     questionsApproved: number;
 }
 
@@ -41,4 +41,9 @@ export interface IApiFetchingResult<T> {
     result: T[];
     errors: Error | undefined;
     isLoaded: boolean;
+}
+
+export interface ILoginDTO {
+    userName: string;
+    password: string;
 }

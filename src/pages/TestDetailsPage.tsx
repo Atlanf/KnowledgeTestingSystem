@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import {
@@ -7,23 +6,21 @@ import {
     ITestDetailsDTO,
     IApiFetchingResult,
 } from "../common/interfaces";
-import { API_URL } from "../common/apiUrl";
 
 import { Details } from "../components/testDetailsPageComponents/Details";
 import { UserResult } from "../components/testDetailsPageComponents/UserResult";
 import { Spinner } from "../components/Spinner";
 
-import FetchApi from "../api/FetchApi";
+import { apiGet } from "../api/apiWorker";
 
 interface Props extends RouteComponentProps<IDetailsMatchParams> {}
 
 export const TestDetailsPage: React.FC<Props> = ({ match }: Props) => {
-    const fetchResult: IApiFetchingResult<ITestDetailsDTO> = FetchApi(
+    const fetchResult: IApiFetchingResult<ITestDetailsDTO> = apiGet(
         "/TestDetails/" + match.params.shortName
     );
 
     const testDetails: ITestDetailsDTO = fetchResult.result[0];
-
     if (fetchResult.errors) {
         return <div>Error: {fetchResult.errors.message}</div>;
     } else if (!fetchResult.isLoaded) {
@@ -34,7 +31,7 @@ export const TestDetailsPage: React.FC<Props> = ({ match }: Props) => {
                 <Details
                     testShortName={testDetails.minimizedName}
                     name={testDetails.name}
-                    description={testDetails.description}
+                    description={testDetails.testDescription}
                     questionsApproved={testDetails.questionsApproved}
                 />
                 <UserResult />
