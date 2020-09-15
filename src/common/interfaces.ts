@@ -1,3 +1,7 @@
+export interface IDictionary<T> {
+    [Key: string]: T;
+}
+
 export interface ITestCategoryDTO {
     categoryName: string;
     testFullNames: string[];
@@ -43,7 +47,32 @@ export interface IApiFetchingResult<T> {
     isLoaded: boolean;
 }
 
+export interface IErrorResponse {
+    errors: IDictionary<string[]>;
+    type: string;
+    title: string;
+    statusCode: number;
+    traceId: string;
+}
+
+export interface IErrors {
+    errors: IDictionary<string[]>;
+}
+
 export interface ILoginDTO {
     userName: string;
     password: string;
+}
+
+export interface IRegisterDTO {
+    userName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    redirectUrl: string;
+}
+
+export interface IRegisterResultDTO {
+    successful: boolean;
+    errors: Array<string>;
 }

@@ -1,13 +1,20 @@
 import React from "react";
 
 import { TestCategory } from "../components/homePageComponents/TestCategory";
-import { ITestCategoryDTO, IApiFetchingResult } from "../common/interfaces";
+import {
+    ITestCategoryDTO,
+    IApiFetchingResult,
+    IRegisterResultDTO,
+} from "../common/interfaces";
 import { Spinner } from "../components/Spinner";
-import { apiGet } from "../api/apiWorker";
+import { ApiWorker } from "../services/apiWorker";
+import { IRegisterDTO } from "../common/interfaces";
 
 export const HomePage: React.FC = () => {
-    const fetchResult: IApiFetchingResult<ITestCategoryDTO> = apiGet("/index");
-
+    const apiWorker = new ApiWorker();
+    const fetchResult: IApiFetchingResult<ITestCategoryDTO> = apiWorker.get(
+        "/index"
+    );
     const categories: ITestCategoryDTO[] = fetchResult.result;
 
     if (fetchResult.errors) {
@@ -31,5 +38,6 @@ export const HomePage: React.FC = () => {
                 </div>
             </div>
         );
+        return <div></div>;
     }
 };

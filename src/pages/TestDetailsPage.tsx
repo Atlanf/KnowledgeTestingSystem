@@ -11,12 +11,13 @@ import { Details } from "../components/testDetailsPageComponents/Details";
 import { UserResult } from "../components/testDetailsPageComponents/UserResult";
 import { Spinner } from "../components/Spinner";
 
-import { apiGet } from "../api/apiWorker";
+import { ApiWorker } from "../services/apiWorker";
 
 interface Props extends RouteComponentProps<IDetailsMatchParams> {}
 
 export const TestDetailsPage: React.FC<Props> = ({ match }: Props) => {
-    const fetchResult: IApiFetchingResult<ITestDetailsDTO> = apiGet(
+    const apiWorker = new ApiWorker();
+    const fetchResult: IApiFetchingResult<ITestDetailsDTO> = apiWorker.get(
         "/TestDetails/" + match.params.shortName
     );
 
