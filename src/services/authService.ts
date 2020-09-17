@@ -1,20 +1,46 @@
 import { ApiWorker } from "./apiWorker";
 import {
     IApiFetchingResult,
+    IErrors,
     ILoginDTO,
     IRegisterDTO,
     IRegisterResultDTO,
 } from "../common/interfaces";
+import { ErrorParser } from "./errorParser";
 
 export class AuthService {
     signIn(login: string, password: string) {}
 
-    register(
+    public register(
         registerModel: IRegisterDTO
     ): IApiFetchingResult<IRegisterResultDTO> {
-        const apiWorker = new ApiWorker();
+        let registerResult: IApiFetchingResult<IRegisterResultDTO>;
 
-        return apiWorker.post("/user/register", registerModel);
+        const apiWorker: ApiWorker = new ApiWorker();
+        const apiResponse: IRegisterResultDTO = apiWorker.registrationPost(
+            registerModel
+        );
+
+        console.log("Start of registration");
+        if (apiResponse) {
+            if (apiResponse.successful) {
+                registerResult = {
+                    result: [apiResponse],
+                    errors: undefined,
+                    isLoaded: true,
+                };
+            } else {
+                registerResult = {
+                    result: [],
+                    errors: apiResponse.errors as IErrors,
+                    isLoaded: true,
+                };
+            }
+
+            return registerResult;
+        }
+
+        return { isLoaded: false, errors: undefined, result: [] };
     }
 
     logOut() {

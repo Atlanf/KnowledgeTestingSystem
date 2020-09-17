@@ -18,7 +18,7 @@ export const HomePage: React.FC = () => {
     const categories: ITestCategoryDTO[] = fetchResult.result;
 
     if (fetchResult.errors) {
-        return <div>Error: {fetchResult.errors.message}</div>;
+        return <div>Error: {(fetchResult.errors as Error).message}</div>;
     } else if (!fetchResult.isLoaded) {
         return <Spinner />;
     } else {

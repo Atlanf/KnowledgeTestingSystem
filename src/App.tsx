@@ -6,6 +6,7 @@ import { HomePage } from "./pages/HomePage";
 import { TestDetailsPage } from "./pages/TestDetailsPage";
 import { TestingPage } from "./pages/TestingPage";
 import { AddQuestionPage } from "./pages/AddQuestionPage";
+import { RegistrationPage } from "./pages/RegistrationPage";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                     path="/:testShortName/questions"
                     component={AddQuestionPage}
                 />
+                <Route path="/registration" component={RegistrationPage} />
             </Switch>
         </BrowserRouter>
     );

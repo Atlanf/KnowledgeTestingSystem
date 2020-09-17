@@ -23,7 +23,7 @@ export const TestDetailsPage: React.FC<Props> = ({ match }: Props) => {
 
     const testDetails: ITestDetailsDTO = fetchResult.result[0];
     if (fetchResult.errors) {
-        return <div>Error: {fetchResult.errors.message}</div>;
+        return <div>Error: {(fetchResult.errors as Error).message}</div>;
     } else if (!fetchResult.isLoaded) {
         return <Spinner />;
     } else {

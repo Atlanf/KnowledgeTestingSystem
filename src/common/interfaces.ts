@@ -43,7 +43,7 @@ export interface ITestDetails {
 
 export interface IApiFetchingResult<T> {
     result: T[];
-    errors: Error | undefined;
+    errors: Error | undefined | IErrors;
     isLoaded: boolean;
 }
 
@@ -74,5 +74,5 @@ export interface IRegisterDTO {
 
 export interface IRegisterResultDTO {
     successful: boolean;
-    errors: Array<string>;
+    errors: Array<string> | IErrors;
 }

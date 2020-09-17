@@ -8,12 +8,15 @@ import {
     IRegisterDTO,
     IRegisterResultDTO,
 } from "../common/interfaces";
+import { ErrorParser } from "./errorParser";
 
 export class ApiWorker {
-    public post<T>(
-        url: string,
-        data: any
-    ): IApiFetchingResult<T> {
+    private responseError: IErrors = { errors: {} };
+    public get errors() {
+        return this.responseError;
+    }
+
+    public post<T>(url: string, data: any): IApiFetchingResult<T> {
         const apiUrl = API_URL + url;
         const [result, setResult] = useState<IApiFetchingResult<T>>({
             isLoaded: false,
@@ -81,15 +84,29 @@ export class ApiWorker {
 
     public registrationPost(data: IRegisterDTO): IRegisterResultDTO {
         const apiUrl = API_URL + "/user/register";
+        const [result, setResult] = useState<IRegisterResultDTO>();
 
         useEffect(() => {
-            axios.post(apiUrl).then((res) => {
-                if (res.data) {
-                    
-                }
-            });
-        });
+            axios
+                .post(apiUrl, data)
+                .then((res) => {
+                    setResult({ successful: true, errors: [] });
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        console.log(error);
+                        const errorParser = new ErrorParser(error);
+                        if (errorParser.isErrorResponse) {
+                            this.responseError = errorParser.errors;
+                            setResult({
+                                successful: false,
+                                errors: [],
+                            });
+                        }
+                    }
+                });
+        }, [data]);
 
-        return { successful: true, errors: [] };
+        return result!;
     }
 }
