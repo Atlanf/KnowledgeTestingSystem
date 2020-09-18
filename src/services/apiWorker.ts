@@ -94,8 +94,10 @@ export class ApiWorker {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        console.log(error);
-                        const errorParser = new ErrorParser(error);
+                        console.log(error.response.data);
+                        const errorParser = new ErrorParser(
+                            error.response.data
+                        );
                         if (errorParser.isErrorResponse) {
                             this.responseError = errorParser.errors;
                             setResult({

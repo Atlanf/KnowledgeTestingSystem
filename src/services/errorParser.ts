@@ -18,11 +18,12 @@ export class ErrorParser {
         return this.errorOccured;
     }
 
-    constructor(response: string) {
+    constructor(response: any) {
         console.log("response is: " + response + "; ");
-        if (response.includes("errors")) {
+        console.log(response);
+        if (response["errors"]) {
             try {
-                this.parseErrorResponse(response);
+                this.parseErrorResponse(response as IErrorResponse);
             } catch {
                 this.responseStatusCode = 0;
             }
@@ -31,10 +32,16 @@ export class ErrorParser {
         }
     }
 
-    private parseErrorResponse(response: string) {
-        const responseObject: IErrorResponse = JSON.parse(response);
-        this.responseStatusCode = responseObject.statusCode;
-        this.errorRecords.errors = responseObject.errors;
+    private parseErrorResponse(response: IErrorResponse) {
+        this.responseStatusCode = response.statusCode;
+        this.errorRecords.errors = response.errors;
         this.errorOccured = true;
+
+        console.log("RESPONSE OBJECT: ");
+        console.log(response);
+        console.log("ERRORS FROM RESPONSE: ");
+        console.log(response.errors);
+        console.log("LIST OF ERRORS: ");
+        console.log(this.errorRecords.errors);
     }
 }
